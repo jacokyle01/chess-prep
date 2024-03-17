@@ -1,6 +1,5 @@
 // import { useState } from 'react'
 import { Config } from "chessground/config";
-import "./App.css";
 import { useMemo, useRef } from "react";
 import { Api } from "chessground/api";
 import Chessground, { Key } from "./components/Chessground";
@@ -36,10 +35,7 @@ const App = () => {
 		// console.log(chess.ascii());
 		const metadeta = chess.move(data.san);
 		// console.log(metadeta);
-		apiRef.current!.move(
-			metadeta.from as Key,
-			metadeta.to as Key
-		);
+		apiRef.current!.move(metadeta.from as Key, metadeta.to as Key);
 	};
 
 	return (
