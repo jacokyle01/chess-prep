@@ -11,9 +11,10 @@ import { Config } from "chessground/config";
 import { Api } from "chessground/api";
 import { Key } from "chessground/types";
 
-import "../node_modules/chessground/assets/chessground.base.css";
-import "../node_modules/chessground/assets/chessground.brown.css";
-import "../node_modules/chessground/assets/chessground.cburnett.css";
+//TODO fix this
+import "../../node_modules/chessground/assets/chessground.base.css";
+import "../../node_modules/chessground/assets/chessground.brown.css";
+import "../../node_modules/chessground/assets/chessground.cburnett.css";
 
 interface Props {
 	width?: number;
