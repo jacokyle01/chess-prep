@@ -19,7 +19,7 @@ const App = () => {
 	const apiRef = useRef<Api | undefined>();
 
 	const initializeTraining = (userInput: string) => {
-		alert(userInput);
+		// alert(userInput);
 		// const chessSrs = ChessSrs({ buckets: [1, 10, 100] });
 		chessSrs.setMethod("learn");
 		chessSrs.addSubrepertoires(userInput, "white");
@@ -33,9 +33,9 @@ const App = () => {
 	};
 
 	const playPly = (data: TrainingData) => {
-		console.log(chess.ascii());
+		// console.log(chess.ascii());
 		const metadeta = chess.move(data.san);
-		console.log(metadeta);
+		// console.log(metadeta);
 		apiRef.current!.move(
 			metadeta.from as Key,
 			metadeta.to as Key
