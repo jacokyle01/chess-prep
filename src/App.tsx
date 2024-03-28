@@ -1,6 +1,6 @@
 // import { useState } from 'react'
 import { Config } from "chessground/config";
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 import { Api } from "chessground/api";
 import Chessground, { Key } from "./components/Chessground";
 import { Next } from "./components/Next";
@@ -10,8 +10,8 @@ import { Chess } from "chess.js";
 import { TrainingData } from "chess-srs/dist/types";
 
 const App = () => {
-	const chess = useMemo(() => new Chess(), []); // <- 1
-	const chessSrs = useMemo(() => ChessSrs(), []);
+	const chess = new Chess();
+	const chessSrs = ChessSrs();
 
 	// const [count, setCount] = useState(0)
 	const myConfig: Config = {};
