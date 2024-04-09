@@ -1,9 +1,13 @@
-interface RTProps {}
+interface RTProps {
+	subrepNames: string[]
+}
 
-export const RepertoireTree: React.FC<RTProps> = () => {
+export const RepertoireTree: React.FC<RTProps> = ({subrepNames}) => {
   return (
     <>
-      <div>"Hello"</div>
+			{subrepNames.map((subrep, index) => (
+				<div>name:{subrep}, index:{index}</div>
+			))}
     </>
   );
 };

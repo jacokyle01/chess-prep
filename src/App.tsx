@@ -21,12 +21,13 @@ const App = () => {
   //render conditionally on action of user
   const [view, setView] = useState<View>('train');
 
+  //store repertoire names here
+  const [subrepNames, setSubrepNames] = useState<string[]>([]);
+
   const myConfig: Config = {};
   const apiRef = useRef<Api | undefined>();
 
   const initializeTraining = (userInput: string) => {
-    // alert(userInput);
-    // const chessSrs = ChessSrs({ buckets: [1, 10, 100] });
     chessSrs.setMethod('learn');
     chessSrs.addSubrepertoires(userInput, 'white');
     chessSrs.load(0);
@@ -43,8 +44,10 @@ const App = () => {
     apiRef.current!.move(metadeta.from as Key, metadeta.to as Key);
   };
 
-  const addSubrepertoire = (pgn: string) => {
+  const addSubrepertoire = (pgn: string, name: string) => {
     console.log(pgn);
+    console.log(name);
+    setSubrepNames([...subrepNames, name]);
     setView('train');
   };
 
@@ -52,7 +55,7 @@ const App = () => {
     <>
       {view == 'addingSubrepertoire' && <NewSubrepForm addSubrepertoire={addSubrepertoire} />}
       <div id="repertoire-wrap">
-        <RepertoireTree></RepertoireTree>
+        <RepertoireTree subrepNames={subrepNames}></RepertoireTree>
         <NewSubrepButton setView={setView}></NewSubrepButton>
       </div>
       <Chessground width={640} height={640} config={myConfig} ref={apiRef} />
