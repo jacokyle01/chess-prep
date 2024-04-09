@@ -51,11 +51,16 @@ const App = () => {
     setView('train');
   };
 
+	const selectSubrepertoire = (index: number) => {
+		console.log(`Selected ${index}`);
+		chessSrs.load(index);
+	}
+
   return (
     <>
-      {view == 'addingSubrepertoire' && <NewSubrepForm addSubrepertoire={addSubrepertoire} />}
+      {view == 'addingSubrepertoire' && <NewSubrepForm addSubrepertoire={addSubrepertoire}/>}
       <div id="repertoire-wrap">
-        <RepertoireTree subrepNames={subrepNames}></RepertoireTree>
+        <RepertoireTree subrepNames={subrepNames} selectSubrepertoire={selectSubrepertoire}></RepertoireTree>
         <NewSubrepButton setView={setView}></NewSubrepButton>
       </div>
       <Chessground width={640} height={640} config={myConfig} ref={apiRef} />
