@@ -1,73 +1,68 @@
 // import { useState } from 'react'
-import { Config } from "chessground/config";
-import { useRef, useState } from "react";
-import { Api } from "chessground/api";
-import Chessground, { Key } from "./components/Chessground";
-import { Next } from "./components/Next";
-import { Form } from "./components/Form";
-import { ChessSrs } from "chess-srs";
-import { Chess } from "chess.js";
-import { TrainingData } from "chess-srs/dist/types";
-import { RepertoireTree } from "./components/RepertoireTree";
-import { View } from "./types/types";
-import { NewSubrepButton } from "./components/NewSubrepButton";
-import { NewSubrepForm } from "./components/NewSubrepForm";
+import { Config } from 'chessground/config';
+import { useRef, useState } from 'react';
+import { Api } from 'chessground/api';
+import Chessground, { Key } from './components/Chessground';
+import { Next } from './components/Next';
+import { Form } from './components/Form';
+import { ChessSrs } from 'chess-srs';
+import { Chess } from 'chess.js';
+import { TrainingData } from 'chess-srs/dist/types';
+import { RepertoireTree } from './components/RepertoireTree';
+import { View } from './types/types';
+import { NewSubrepButton } from './components/NewSubrepButton';
+import { NewSubrepForm } from './components/NewSubrepForm';
 
 const App = () => {
-	//TODO store as state? ex. in hook?
-	const chess = new Chess();
-	const chessSrs = ChessSrs();
+  //TODO store as state? ex. in hook?
+  const chess = new Chess();
+  const chessSrs = ChessSrs();
 
-	//render conditionally on action of user
-	const [view, setView] = useState<View>("train");
+  //render conditionally on action of user
+  const [view, setView] = useState<View>('train');
 
-	const myConfig: Config = {};
-	const apiRef = useRef<Api | undefined>();
+  const myConfig: Config = {};
+  const apiRef = useRef<Api | undefined>();
 
-	const initializeTraining = (userInput: string) => {
-		// alert(userInput);
-		// const chessSrs = ChessSrs({ buckets: [1, 10, 100] });
-		chessSrs.setMethod("learn");
-		chessSrs.addSubrepertoires(userInput, "white");
-		chessSrs.load(0);
-	};
+  const initializeTraining = (userInput: string) => {
+    // alert(userInput);
+    // const chessSrs = ChessSrs({ buckets: [1, 10, 100] });
+    chessSrs.setMethod('learn');
+    chessSrs.addSubrepertoires(userInput, 'white');
+    chessSrs.load(0);
+  };
 
-	const learnNext = () => {
-		chess.reset();
-		chessSrs.next();
-		chessSrs.path()?.forEach((ply) => playPly(ply.data));
-	};
+  const learnNext = () => {
+    chess.reset();
+    chessSrs.next();
+    chessSrs.path()?.forEach((ply) => playPly(ply.data));
+  };
 
-	const playPly = (data: TrainingData) => {
-		const metadeta = chess.move(data.san);
-		apiRef.current!.move(metadeta.from as Key, metadeta.to as Key);
-	};
+  const playPly = (data: TrainingData) => {
+    const metadeta = chess.move(data.san);
+    apiRef.current!.move(metadeta.from as Key, metadeta.to as Key);
+  };
 
-	const addSubrepertoire = (pgn: string) => {
-		console.log(pgn);
-		setView("train");
+  const addSubrepertoire = (pgn: string) => {
+    console.log(pgn);
+    setView('train');
+  };
 
-		
-
-	};
-
-	return (
-		<>
-			{(view == "addingSubrepertoire") && <NewSubrepForm addSubrepertoire={addSubrepertoire} />}
-			<div id="repertoire-wrap">
-				<RepertoireTree></RepertoireTree>
-				<NewSubrepButton setView={setView}></NewSubrepButton>
-			</div>
-			<Chessground width={640} height={640} config={myConfig} ref={apiRef} />
-			<div id="training-wrap">
-				<Next learnNext={learnNext}></Next>
-				<Form initializeTraining={initializeTraining}></Form>
-				<h3>
-					1. d4 d5 2. c4 e6 3. Nf3 Nf6 4. g3 Be7 5. Bg2 O-O 6. O-O dxc4 7. Qc2
-				</h3>
-			</div>
-		</>
-	);
+  return (
+    <>
+      {view == 'addingSubrepertoire' && <NewSubrepForm addSubrepertoire={addSubrepertoire} />}
+      <div id="repertoire-wrap">
+        <RepertoireTree></RepertoireTree>
+        <NewSubrepButton setView={setView}></NewSubrepButton>
+      </div>
+      <Chessground width={640} height={640} config={myConfig} ref={apiRef} />
+      <div id="training-wrap">
+        <Next learnNext={learnNext}></Next>
+        <Form initializeTraining={initializeTraining}></Form>
+        <h3>1. d4 d5 2. c4 e6 3. Nf3 Nf6 4. g3 Be7 5. Bg2 O-O 6. O-O dxc4 7. Qc2</h3>
+      </div>
+    </>
+  );
 };
 
 export default App;

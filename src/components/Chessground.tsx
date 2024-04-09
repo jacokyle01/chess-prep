@@ -1,71 +1,59 @@
-import {
-	forwardRef,
-	useEffect,
-	useImperativeHandle,
-	useRef,
-	useState,
-} from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
-import { Chessground as ChessgroundApi } from "chessground";
-import { Config } from "chessground/config";
-import { Api } from "chessground/api";
-import { Key } from "chessground/types";
+import { Chessground as ChessgroundApi } from 'chessground';
+import { Config } from 'chessground/config';
+import { Api } from 'chessground/api';
+import { Key } from 'chessground/types';
 
 //TODO fix this
-import "../../node_modules/chessground/assets/chessground.base.css";
-import "../../node_modules/chessground/assets/chessground.brown.css";
-import "../../node_modules/chessground/assets/chessground.cburnett.css";
+import '../../node_modules/chessground/assets/chessground.base.css';
+import '../../node_modules/chessground/assets/chessground.brown.css';
+import '../../node_modules/chessground/assets/chessground.cburnett.css';
 
 interface Props {
-	width?: number;
-	height?: number;
-	contained?: boolean;
-	config?: Config;
+  width?: number;
+  height?: number;
+  contained?: boolean;
+  config?: Config;
 }
 
 const Chessground = forwardRef<Api | undefined, Props>(
-	(
-		{ width = 900, height = 900, config = {}, contained = false }: Props,
-		apiRef
-	) => {
-		const [api, setApi] = useState<Api | undefined>();
-		const divRef = useRef<HTMLDivElement>(null);
+  ({ width = 900, height = 900, config = {}, contained = false }: Props, apiRef) => {
+    const [api, setApi] = useState<Api | undefined>();
+    const divRef = useRef<HTMLDivElement>(null);
 
-		useImperativeHandle(
-			apiRef,
-			() => {
-				return api;
-			},
-			[api]
-		);
+    useImperativeHandle(
+      apiRef,
+      () => {
+        return api;
+      },
+      [api]
+    );
 
-		useEffect(() => {
-			if (divRef.current && !api) {
-				const chessgroundApi = ChessgroundApi(divRef.current, config);
-				setApi(chessgroundApi);
-			}
-		}, [divRef.current, api]);
+    useEffect(() => {
+      if (divRef.current && !api) {
+        const chessgroundApi = ChessgroundApi(divRef.current, config);
+        setApi(chessgroundApi);
+      }
+    }, [divRef.current, api]);
 
-		useEffect(() => {
-			if (api) {
-				api.set(config);
-			}
-		}, [config]);
+    useEffect(() => {
+      if (api) {
+        api.set(config);
+      }
+    }, [config]);
 
-		return (
-			<div
-				style={{
-					height: contained ? "100%" : height,
-					width: contained ? "100%" : width,
-				}}
-			>
-				<div
-					ref={divRef}
-					style={{ height: "100%", width: "100%", display: "table" }}
-				/>
-			</div>
-		);
-	}
+    return (
+      <div
+        style={{
+          height: contained ? '100%' : height,
+          width: contained ? '100%' : width,
+        }}
+      >
+        <div ref={divRef} style={{ height: '100%', width: '100%', display: 'table' }} />
+      </div>
+    );
+  }
 );
 
 export type { Api, Config, Key };

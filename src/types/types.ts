@@ -1,1 +1,1 @@
-export type View = "train" | "addingSubrepertoire"
+export type View = 'train' | 'addingSubrepertoire';

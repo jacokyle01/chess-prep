@@ -1,13 +1,13 @@
-import { View } from "../types/types";
+import { View } from '../types/types';
 
 interface SBProps {
-	setView: (view: View) => void
+  setView: (view: View) => void;
 }
 
-export const NewSubrepButton: React.FC<SBProps> = ({setView}) => {
-	return (
-		<>
-			<button onClick={() => setView("addingSubrepertoire")}></button>
-		</>
-	);
+export const NewSubrepButton: React.FC<SBProps> = ({ setView }) => {
+  return (
+    <>
+      <button onClick={() => setView('addingSubrepertoire')}></button>
+    </>
+  );
 };
