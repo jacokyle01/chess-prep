@@ -1,6 +1,6 @@
 // import { useState } from 'react'
 import { Config } from "chessground/config";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Api } from "chessground/api";
 import Chessground, { Key } from "./components/Chessground";
 import { Next } from "./components/Next";
@@ -8,12 +8,19 @@ import { Form } from "./components/Form";
 import { ChessSrs } from "chess-srs";
 import { Chess } from "chess.js";
 import { TrainingData } from "chess-srs/dist/types";
+import { RepertoireTree } from "./components/RepertoireTree";
+import { View } from "./types/types";
+import { NewSubrepButton } from "./components/NewSubrepButton";
+import { NewSubrepForm } from "./components/NewSubrepForm";
 
 const App = () => {
+	//TODO store as state? ex. in hook?
 	const chess = new Chess();
 	const chessSrs = ChessSrs();
 
-	// const [count, setCount] = useState(0)
+	//render conditionally on action of user
+	const [view, setView] = useState<View>("train");
+
 	const myConfig: Config = {};
 	const apiRef = useRef<Api | undefined>();
 
@@ -32,14 +39,25 @@ const App = () => {
 	};
 
 	const playPly = (data: TrainingData) => {
-		// console.log(chess.ascii());
 		const metadeta = chess.move(data.san);
-		// console.log(metadeta);
 		apiRef.current!.move(metadeta.from as Key, metadeta.to as Key);
+	};
+
+	const addSubrepertoire = (pgn: string) => {
+		console.log(pgn);
+		setView("train");
+
+		
+
 	};
 
 	return (
 		<>
+			{(view == "addingSubrepertoire") && <NewSubrepForm addSubrepertoire={addSubrepertoire} />}
+			<div id="repertoire-wrap">
+				<RepertoireTree></RepertoireTree>
+				<NewSubrepButton setView={setView}></NewSubrepButton>
+			</div>
 			<Chessground width={640} height={640} config={myConfig} ref={apiRef} />
 			<div id="training-wrap">
 				<Next learnNext={learnNext}></Next>
